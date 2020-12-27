@@ -34,9 +34,9 @@
                         @endif
                     @endauth
                 </div>
-            @elseif (Route::has('sso.cognito.index'))
+            @elseif (Route::has('sso.cognito.login'))
                 <div class="hidden fixed top-0 right-0 px-6 py-4 sm:block">
-                    <a class="nav-link" href="{{ route('sso.cognito.index') }}">{{ __('Cognito') }}</a>
+                    <a class="nav-link" href="{{ route('sso.cognito.login') }}">{{ __('Cognito') }}</a>
                 </div>
             @endif
 

@@ -28,9 +28,7 @@ Auth::routes([
 
 Route::group(['prefix' => 'sso'], function () {
     Route::group(['prefix' => 'cognito'], function () {
-        Route::get('/', [CognitoController::class, 'index'])
-            ->name('sso.cognito.index');
-        Route::post('/login',  [CognitoController::class, 'login'])
+        Route::get('/login',  [CognitoController::class, 'login'])
             ->name('sso.cognito.login');
         Route::get('/logout', [CognitoController::class, 'logout'])
             ->name('sso.cognito.logout');

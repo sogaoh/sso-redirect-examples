@@ -40,9 +40,9 @@
                     <ul class="navbar-nav ml-auto">
                         <!-- Authentication Links -->
                         @guest
-                            @if (Route::has('sso.cognito.index'))
+                            @if (Route::has('sso.cognito.login'))
                                 <li class="nav-item">
-                                    <a class="nav-link" href="{{ route('sso.cognito.index') }}">{{ __('Cognito') }}</a>
+                                    <a class="nav-link" href="{{ route('sso.cognito.login') }}">{{ __('Cognito') }}</a>
                                 </li>
                             @endif
 
