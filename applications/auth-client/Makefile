@@ -30,6 +30,7 @@ test: vendor
 # one time
 key:
 	php artisan key:generate
+	@make clr
 link:
 	php artisan storage:link
 dev-tools:
