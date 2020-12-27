@@ -1,8 +1,8 @@
 /applications/run/.env
 /applications/auth-client/.env
 /applications/auth-client/public/mix-manifest.json
-/applications/auth-client/public/js/*
-/applications/auth-client/public/css/*
+/applications/auth-client/public/js/app.js
+/applications/auth-client/public/css/app.css
 /applications/auth-client/bootstrap/cache
 /applications/auth-client/storage/debugbar
 /applications/auth-client/storage/framework/cache
