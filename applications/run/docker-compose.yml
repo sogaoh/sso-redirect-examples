@@ -15,6 +15,7 @@ services:
     environment:
       - APP_NAME_C=${APP_NAME_C}
       - APP_ENV_C=${APP_ENV_C}
+      - APP_KEY_C=${APP_KEY_C}
       - APP_DEBUG_C=${APP_DEBUG_C}
       - APP_URL_C=${APP_URL_C}
       - AWS_COGNITO_REGION_C=${AWS_COGNITO_REGION_C}

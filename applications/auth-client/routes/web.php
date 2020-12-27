@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Sso\CognitoController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -17,6 +18,25 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Auth::routes(['register' => false, 'reset' => false, 'verify' => false]);
+Auth::routes([
+    'login' => false,
+    'register' => false,
+    'reset' => false,
+    'confirm' => false,
+    'verify' => false
+]);
+
+Route::group(['prefix' => 'sso'], function () {
+    Route::group(['prefix' => 'cognito'], function () {
+        Route::get('/', [CognitoController::class, 'index'])
+            ->name('sso.cognito.index');
+        Route::post('/login',  [CognitoController::class, 'login'])
+            ->name('sso.cognito.login');
+        Route::get('/logout', [CognitoController::class, 'logout'])
+            ->name('sso.cognito.logout');
+        Route::get('/callback', [CognitoController::class, 'callback'])
+            ->name('sso.cognito.callback');
+    });
+});
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
