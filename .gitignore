@@ -3,6 +3,7 @@
 /applications/auth-client/public/js/*
 /applications/auth-client/public/css/*
 /applications/auth-client/bootstrap/cache
+/applications/auth-client/storage/debugbar
 /applications/auth-client/storage/framework/cache
 /applications/auth-client/storage/framework/sessions
 /applications/auth-client/storage/framework/testing
