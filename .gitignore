@@ -1,3 +1,4 @@
+.idea
 /applications/run/.env
 /applications/auth-client/.env
 /applications/auth-client/public/mix-manifest.json
