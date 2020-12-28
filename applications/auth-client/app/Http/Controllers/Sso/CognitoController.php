@@ -3,7 +3,10 @@
 namespace App\Http\Controllers\Sso;
 
 use App\Http\Controllers\Controller;
+use App\Libs\Sso\Trait\SignInRequestBuilder;
 use Illuminate\Http\Request;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Log; //TODO: delete
 
 /**
  * Class CognitoController
@@ -11,20 +14,43 @@ use Illuminate\Http\Request;
  */
 class CognitoController extends Controller
 {
-    public function index()
+    use SignInRequestBuilder;
+
+    /** @var array Cognito設定 */
+    private array $config;
+
+    /**
+     * CognitoController constructor.
+     */
+    public function __construct()
     {
-        return view('sso.cognito.index');
+        $this->config = config('sso-cognito');
     }
 
-    public function login(Request $request)
+    /**
+     * @return RedirectResponse
+     */
+    public function login(): RedirectResponse
     {
+        $state = $this->getStateUuid();
+        //TODO: state をここでセッションに保存しておくなど適宜
+        return redirect()->away(
+            $this->buildCognitoSignInRequest([
+                'cognito' => $this->config,
+                'state'   => $state,
+                'appUrl'  => config('app.url')
+            ])
+        );
     }
 
     public function logout()
     {
+        Log::debug('logout');
     }
 
-    public function callback()
+    public function callback(Request $request)
     {
+        var_dump($request->all());
+        Log::debug('callback');
     }
 }
