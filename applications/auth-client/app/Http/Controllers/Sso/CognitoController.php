@@ -51,7 +51,24 @@ class CognitoController extends Controller
 
     public function callback(Request $request)
     {
-        var_dump($request->all());
-        Log::debug('callback');
+        $tokenResponse = $this->invoker->invokeTokenRequest([
+            'loginResult' => $request->all(),
+            'appUrl'      => config('app.url')
+        ]);
+        $tokens = \json_decode(
+            $tokenResponse->getBody()->getContents(), true
+        );
+
+        $userInfoResponse = $this->invoker->invokeUserInfoRequest([
+            'headers' => [
+                'Authorization' => 'Bearer ' . $tokens['access_token']
+            ]
+        ]);
+        $userInfo = \json_decode(
+            $userInfoResponse->getBody()->getContents(), true
+        );
+
+        var_dump($userInfo);
+        //TODO: 取得したユーザー情報で Auth:user を作り込み、ログインした状態にして home 画面に遷移する
     }
 }
