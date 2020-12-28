@@ -3,11 +3,12 @@
 namespace App\Http\Controllers\Sso;
 
 use App\Http\Controllers\Controller;
-use App\Libs\Sso\CognitoRequestBuilder;
+use App\Libs\Sso\CognitoAuthRequest;
 use App\Libs\Sso\Trait\SsoRequestHelper;
 use Illuminate\Http\Request;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Log; //TODO: delete
+use Psr\Http\Message\ResponseInterface;
 
 /**
  * Class CognitoController
@@ -17,15 +18,15 @@ class CognitoController extends Controller
 {
     use SsoRequestHelper;
 
-    /** @var CognitoRequestBuilder */
-    private CognitoRequestBuilder $rb;
+    /** @var CognitoAuthRequest  */
+    private CognitoAuthRequest $invoker;
 
     /**
      * CognitoController constructor.
      */
     public function __construct()
     {
-        $this->rb = new CognitoRequestBuilder();
+        $this->invoker = new CognitoAuthRequest(null);
     }
 
     /**
@@ -36,10 +37,10 @@ class CognitoController extends Controller
         $state = $this->getStateUuid();
         //TODO: state をここでセッションに保存しておくなど適宜
         return redirect()->away(
-            $this->rb->getSignInRequest([
+            \urldecode($this->invoker->buildLoginRequest([
                 'state'   => $state,
                 'appUrl'  => config('app.url')
-            ])
+            ]))
         );
     }
 
