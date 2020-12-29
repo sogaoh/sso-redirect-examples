@@ -16,10 +16,10 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('welcome');
-});
+})->name('welcome');
 
 Auth::routes([
-    'login' => false,
+    //'login' => false,
     'register' => false,
     'reset' => false,
     'confirm' => false,
