@@ -3,6 +3,7 @@
 namespace App\Http\Middleware;
 
 use Illuminate\Auth\Middleware\Authenticate as Middleware;
+use Illuminate\Support\Facades\Log; //TODO: delete
 
 class Authenticate extends Middleware
 {
@@ -15,6 +16,8 @@ class Authenticate extends Middleware
     protected function redirectTo($request)
     {
         if (! $request->expectsJson()) {
+            Log::debug('!$request->expectsJson() ' .
+                var_export(['req'=>$request->all()],true));
             //return route('login');
             return route('welcome');
         }

@@ -5,8 +5,12 @@ namespace App\Http\Controllers\Sso;
 use App\Http\Controllers\Controller;
 use App\Libs\Sso\CognitoAuthRequest;
 use App\Libs\Sso\Trait\SsoRequestHelper;
+use App\Models\User;
+use App\Providers\RouteServiceProvider;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log; //TODO: delete
 use Psr\Http\Message\ResponseInterface;
 
@@ -17,6 +21,13 @@ use Psr\Http\Message\ResponseInterface;
 class CognitoController extends Controller
 {
     use SsoRequestHelper;
+
+    /**
+     * Where to redirect users after login.
+     *
+     * @var string
+     */
+    protected $redirectTo = RouteServiceProvider::HOME;
 
     /** @var CognitoAuthRequest  */
     private CognitoAuthRequest $invoker;
@@ -51,6 +62,7 @@ class CognitoController extends Controller
 
     public function callback(Request $request)
     {
+        //Token Request
         $tokenResponse = $this->invoker->invokeTokenRequest([
             'loginResult' => $request->all(),
             'appUrl'      => config('app.url')
@@ -59,6 +71,7 @@ class CognitoController extends Controller
             $tokenResponse->getBody()->getContents(), true
         );
 
+        //UserInfo Request
         $userInfoResponse = $this->invoker->invokeUserInfoRequest([
             'headers' => [
                 'Authorization' => 'Bearer ' . $tokens['access_token']
@@ -68,7 +81,20 @@ class CognitoController extends Controller
             $userInfoResponse->getBody()->getContents(), true
         );
 
-        var_dump($userInfo);
-        //TODO: 取得したユーザー情報で Auth:user を作り込み、ログインした状態にして home 画面に遷移する
+        Log::debug(var_export(['usserInfo'=>$userInfo], true));
+
+        //取得したユーザー情報で Auth:user を作り込み、
+        //ログインした状態にして home 画面に遷移する
+        $user = new User();
+        $user->name  = $userInfo['username'];
+        $user->email = $userInfo['email'];
+
+        // http://fresh-engineer.hatenablog.com/entry/2018/01/10/020821 の
+        // getCallback を参考に、ユーザーいなかったケースも想定して整える
+        Auth::setUser($user);   // Auth::login すると DBエラーになる。。null-auth を次に試す
+        Log::debug('to '.$this->redirectTo);
+
+        //return redirect($this->redirectTo);
+        return view('home'); // 暫定実装。URLがコールバックURLのままなので home になるようにする
     }
 }
