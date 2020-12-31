@@ -2,7 +2,9 @@
 
 namespace App\Http\Middleware;
 
+use App\Models\User;
 use Illuminate\Auth\Middleware\Authenticate as Middleware;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log; //TODO: delete
 
 class Authenticate extends Middleware
@@ -18,8 +20,21 @@ class Authenticate extends Middleware
         if (! $request->expectsJson()) {
             Log::debug('!$request->expectsJson() ' .
                 var_export(['req'=>$request->all()],true));
-            //return route('login');
-            return route('welcome');
+//            $userInfo = $request->get('userInfo');
+//            if ($userInfo){
+//                //$this->authenticate($request, ['name' => 'web']);
+//                $user = new User();
+//                $user->name  = $userInfo['username'];
+//                $user->email = $userInfo['email'];
+//                Auth::setUser($user);
+//            }
+//            //Log::debug(var_export(['check'=>Auth::check()],true));
+//            Log::debug(var_export(['user1'=>Auth::user()->name],true));
+
+//            if (!Auth::check()){
+                //return route('login');
+                return route('welcome');
+//            }
         }
     }
 }

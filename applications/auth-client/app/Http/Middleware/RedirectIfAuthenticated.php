@@ -6,6 +6,7 @@ use App\Providers\RouteServiceProvider;
 use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log; //TODO: delete
 
 class RedirectIfAuthenticated
 {
@@ -19,6 +20,11 @@ class RedirectIfAuthenticated
      */
     public function handle(Request $request, Closure $next, ...$guards)
     {
+        Log::debug(var_export(['g2'=>$guards],true));
+        Log::debug(var_export(['req2'=>$request->all()],true));
+        Log::debug(var_export(['user'=>Auth::user()],true));
+        //$request->flush();  // userInfo が get パラメータで丸見えになるので flush する
+
         $guards = empty($guards) ? [null] : $guards;
 
         foreach ($guards as $guard) {

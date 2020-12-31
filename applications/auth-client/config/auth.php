@@ -37,7 +37,8 @@ return [
 
     'guards' => [
         'web' => [
-            'driver' => 'session',
+            //'driver' => 'session',
+            'driver' => 'null',
             'provider' => 'users',
         ],
 
@@ -67,9 +68,13 @@ return [
 
     'providers' => [
         'users' => [
-            'driver' => 'eloquent',
-            'model' => App\Models\User::class,
+            'driver' => 'null', // Use NullUserProvider for "users"
         ],
+
+        //'users' => [
+        //    'driver' => 'eloquent',
+        //    'model' => App\Models\User::class,
+        //],
 
         // 'users' => [
         //     'driver' => 'database',

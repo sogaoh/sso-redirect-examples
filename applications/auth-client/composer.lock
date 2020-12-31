@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "53eefe3c93f8fbd119dfaedf17ab36b1",
+    "content-hash": "06561d4d857627f69f7174e39f92412e",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -1836,6 +1836,71 @@
                 }
             ],
             "time": "2020-12-14T13:15:25+00:00"
+        },
+        {
+            "name": "mpyw/null-auth",
+            "version": "v1.2.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/mpyw/null-auth.git",
+                "reference": "7ebb07f2ecb097aa8136247939985acf0e95265c"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/mpyw/null-auth/zipball/7ebb07f2ecb097aa8136247939985acf0e95265c",
+                "reference": "7ebb07f2ecb097aa8136247939985acf0e95265c",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/auth": "^5.6 || ^6.0 || ^7.0 || ^8.0 || ^9.0",
+                "illuminate/contracts": "^5.6 || ^6.0 || ^7.0 || ^8.0 || ^9.0",
+                "illuminate/support": "^5.6 || ^6.0 || ^7.0 || ^8.0 || ^9.0",
+                "php": "^7.1 || ^8.0"
+            },
+            "require-dev": {
+                "friendsofphp/php-cs-fixer": "^2.14",
+                "mockery/mockery": "^1.3",
+                "orchestra/testbench": "^6.0",
+                "php-coveralls/php-coveralls": "^2.1"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Mpyw\\NullAuth\\NullAuthServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Mpyw\\NullAuth\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "mpyw",
+                    "email": "ryosuke_i_628@yahoo.co.jp"
+                }
+            ],
+            "description": "Null Guard for Laravel. Designed for Middleware-based authentication and testing.",
+            "keywords": [
+                "Dummy",
+                "auth",
+                "illuminate",
+                "laravel",
+                "none",
+                "nothing",
+                "null"
+            ],
+            "support": {
+                "issues": "https://github.com/mpyw/null-auth/issues",
+                "source": "https://github.com/mpyw/null-auth/tree/v1.2.2"
+            },
+            "time": "2020-10-06T05:24:57+00:00"
         },
         {
             "name": "nesbot/carbon",
