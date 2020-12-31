@@ -37,4 +37,7 @@ Route::group(['prefix' => 'sso'], function () {
     });
 });
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+//Route::match(['get', 'post'],
+Route::get(
+    '/home', [App\Http\Controllers\HomeController::class, 'index']
+)->name('home');

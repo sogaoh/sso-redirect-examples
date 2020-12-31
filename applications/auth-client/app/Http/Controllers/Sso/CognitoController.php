@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Sso;
 use App\Http\Controllers\Controller;
 use App\Libs\Sso\CognitoAuthRequest;
 use App\Libs\Sso\Trait\SsoRequestHelper;
-use App\Models\User;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -81,20 +80,17 @@ class CognitoController extends Controller
             $userInfoResponse->getBody()->getContents(), true
         );
 
-        Log::debug(var_export(['usserInfo'=>$userInfo], true));
+        //NOTE:
+        //DBがあるならここで認証処理（Auth::login(<照合された User Model>)）
+        //をしておくのが良さそう
+        //そして、 redirect()->intended('/home'); するのがたぶん標準的な実装
 
-        //取得したユーザー情報で Auth:user を作り込み、
-        //ログインした状態にして home 画面に遷移する
-        $user = new User();
-        $user->name  = $userInfo['username'];
-        $user->email = $userInfo['email'];
+        $request->session()->put('userInfo', $userInfo);
+        return redirect()->route('home');
 
-        // http://fresh-engineer.hatenablog.com/entry/2018/01/10/020821 の
-        // getCallback を参考に、ユーザーいなかったケースも想定して整える
-        Auth::setUser($user);   // Auth::login すると DBエラーになる。。null-auth を次に試す
-        Log::debug('to '.$this->redirectTo);
-
-        //return redirect($this->redirectTo);
-        return view('home'); // 暫定実装。URLがコールバックURLのままなので home になるようにする
+        //POST redirect -> これはできない
+        //return redirect()->route('home',
+        //    compact('userInfo')
+        //);
     }
 }
