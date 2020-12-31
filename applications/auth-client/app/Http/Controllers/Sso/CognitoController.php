@@ -5,12 +5,11 @@ namespace App\Http\Controllers\Sso;
 use App\Http\Controllers\Controller;
 use App\Libs\Sso\CognitoAuthRequest;
 use App\Libs\Sso\Trait\SsoRequestHelper;
-use App\Providers\RouteServiceProvider;
+use Illuminate\Http\Client\Response;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Log; //TODO: delete
 use Psr\Http\Message\ResponseInterface;
 
 /**
@@ -21,13 +20,6 @@ class CognitoController extends Controller
 {
     use SsoRequestHelper;
 
-    /**
-     * Where to redirect users after login.
-     *
-     * @var string
-     */
-    protected $redirectTo = RouteServiceProvider::HOME;
-
     /** @var CognitoAuthRequest  */
     private CognitoAuthRequest $invoker;
 
@@ -36,7 +28,7 @@ class CognitoController extends Controller
      */
     public function __construct()
     {
-        $this->invoker = new CognitoAuthRequest(null);
+        $this->invoker = new CognitoAuthRequest();
     }
 
     /**
@@ -54,30 +46,44 @@ class CognitoController extends Controller
         );
     }
 
-    public function logout()
+    /**
+     * @return RedirectResponse
+     */
+    public function logout(): RedirectResponse
     {
-        Log::debug('logout');
+        $state = $this->getStateUuid();
+        //TODO: state をここでセッションに保存しておくなど適宜
+        return redirect()->away(
+            \urldecode($this->invoker->buildLogoutRequest([
+                'state'   => $state,
+                'appUrl'  => config('app.url')
+            ]))
+        );
     }
 
+    /**
+     * @param Request $request
+     * @return mixed
+     */
     public function callback(Request $request)
     {
+        //TODO: state のチェック
+
         //Token Request
         $tokenResponse = $this->invoker->invokeTokenRequest([
             'loginResult' => $request->all(),
             'appUrl'      => config('app.url')
         ]);
         $tokens = \json_decode(
-            $tokenResponse->getBody()->getContents(), true
+            $tokenResponse->body(), true
         );
 
         //UserInfo Request
         $userInfoResponse = $this->invoker->invokeUserInfoRequest([
-            'headers' => [
-                'Authorization' => 'Bearer ' . $tokens['access_token']
-            ]
+            'access_token' => $tokens['access_token']
         ]);
         $userInfo = \json_decode(
-            $userInfoResponse->getBody()->getContents(), true
+            $userInfoResponse->body(), true
         );
 
         //NOTE:
@@ -87,10 +93,5 @@ class CognitoController extends Controller
 
         $request->session()->put('userInfo', $userInfo);
         return redirect()->route('home');
-
-        //POST redirect -> これはできない
-        //return redirect()->route('home',
-        //    compact('userInfo')
-        //);
     }
 }
