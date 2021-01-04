@@ -11,3 +11,11 @@
 /applications/auth-client/storage/framework/testing
 /applications/auth-client/storage/framework/views
 /applications/auth-client/storage/logs
+/infrastructures/*/.terraform
+/infrastructures/*/generated
+/infrastructures/*/*.tfvars
+/infrastructures/*/*.tfvars.*
+/infrastructures/*/*.tfstate
+/infrastructures/*/*.tfstate.*
+
+
