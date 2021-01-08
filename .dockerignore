@@ -1,0 +1,5 @@
+applications/auth-client/vendor
+applications/auth-client/node_modules
+applications/auth-client/.env
+.env
+.env.*
