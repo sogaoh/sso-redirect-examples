@@ -45,5 +45,3 @@ RUN php artisan cache:clear \
 RUN chown -R www-data:www-data .
 RUN chmod -R a+w storage
 RUN chmod -R a+w bootstrap/cache
-
-EXPOSE 9000

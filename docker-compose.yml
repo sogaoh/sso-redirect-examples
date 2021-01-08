@@ -1,9 +1,5 @@
 version: "3"
 
-#volumes:
-  #php-fpm-socket:
-  #db-store:
-
 services:
   web:
     image: sso-redirect-examples/web:develop
@@ -12,15 +8,12 @@ services:
     expose:
       - ${WEB_PORT:-3070}
     volumes:
-      #- php-fpm-socket:/var/run/php-fpm
       - ./deploy/docker/auth-client/nginx-node/local/default.conf:/etc/nginx/conf.d/default.conf
     depends_on:
       - client
 
   client:
     image: sso-redirect-examples/client:develop
-    #volumes:
-      #- php-fpm-socket:/var/run/php-fpm
     environment:
       - APP_NAME=${APP_NAME_C}
       - APP_ENV=${APP_ENV_C}
@@ -32,5 +25,3 @@ services:
       - AWS_COGNITO_CLIENT_ID=${AWS_COGNITO_CLIENT_ID_C}
       - AWS_COGNITO_CLIENT_SECRET=${AWS_COGNITO_CLIENT_SECRET_C}
       - AWS_COGNITO_USER_POOL_ID=${AWS_COGNITO_USER_POOL_ID_C}
-    expose:
-      - 9000

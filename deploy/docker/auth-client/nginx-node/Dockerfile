@@ -31,7 +31,6 @@ COPY ./deploy/docker/auth-client/nginx-node/ecs/default.conf /etc/nginx/conf.d/d
 
 # copy scripts
 COPY --from=node /work/public /work/public/
-#COPY --from=node /work /work/
 
 
 WORKDIR /work
