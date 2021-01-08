@@ -5,20 +5,22 @@ help:
 
 # environments
 chmod:
-	docker-compose exec client chmod -R a=rwX storage
-	docker-compose exec client chmod -R a=rwX bootstrap/cache
+	docker-compose exec client chmod -R a+w storage
+	docker-compose exec client chmod -R a+w bootstrap/cache
 local:
 	\cp -p .env.local .env
 	@make up
 	@make chmod
+re-bld:
+	docker-compose build --no-cache --force-rm
 
 # up/down
-build:
-	docker-compose build --no-cache --force-rm
 up:
 	docker-compose up -d
 down:
 	docker-compose down --remove-orphans
+prune:
+	docker system prune --volumes
 restart:
 	@make down
 	@make up
@@ -26,5 +28,5 @@ restart:
 # exec
 web:
 	docker-compose exec web ash
-cl:
+cln:
 	docker-compose exec client bash

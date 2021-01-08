@@ -4,7 +4,8 @@ LABEL maintainer="Hisashi SOGA <sogaoh@ant-in-giant.work>"
 
 SHELL ["/bin/ash", "-oeux", "pipefail", "-c"]
 
-ENV TZ=UTC
+#ENV TZ=UTC
+ENV TZ=Asia/Tokyo
 
 RUN apk update && \
   apk add --update --no-cache --virtual=.build-dependencies g++
@@ -16,6 +17,6 @@ COPY --from=node /usr/local/lib /usr/local/lib
 # yarn command
 COPY --from=node /opt /opt
 # nginx config file
-COPY ./docker/auth-client/nginx-node/default.conf /etc/nginx/conf.d/default.conf
+COPY ./docker/nginx-node/default.conf /etc/nginx/conf.d/default.conf
 
 WORKDIR /work
