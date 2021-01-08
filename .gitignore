@@ -1,5 +1,8 @@
 .idea
 .env
+/applications/.env
+/applications/.env.*
+!/applications/.env.local
 /applications/run/.env
 /applications/run/.env.*
 !/applications/run/.env.local

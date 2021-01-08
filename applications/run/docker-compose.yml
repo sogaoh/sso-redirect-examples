@@ -8,7 +8,7 @@ services:
   client:
     build:
       context: .
-      dockerfile: ./docker/auth-client/php/Dockerfile
+      dockerfile: ./docker/php/Dockerfile
     volumes:
       - php-fpm-socket:/var/run/php-fpm
       - ../../applications/auth-client:/work
@@ -27,7 +27,7 @@ services:
   web:
     build:
       context: .
-      dockerfile: ./docker/auth-client/nginx-node/Dockerfile
+      dockerfile: ./docker/nginx-node/Dockerfile
     ports:
       - ${WEB_PORT:-3070}:80
     volumes:

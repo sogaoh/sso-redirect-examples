@@ -4,7 +4,8 @@ LABEL maintainer="Hisashi SOGA <sogaoh@ant-in-giant.work>"
 SHELL ["/bin/bash", "-oeux", "pipefail", "-c"]
 
 # timezone environment
-ENV TZ=UTC \
+#ENV TZ=UTC \
+ENV TZ=Asia/Tokyo \
   # locale
   LANG=en_US.UTF-8 \
   LANGUAGE=en_US:en \
@@ -26,22 +27,25 @@ RUN apt-get update && \
   composer config -g process-timeout 3600 && \
   composer config -g repos.packagist composer https://packagist.org
 
-COPY ./applications/auth-client /work
+COPY ./auth-client /work
 
-COPY ./deploy/docker/auth-client/php/php-fpm.d/zzz-www.conf /usr/local/etc/php-fpm.d/zzz-www.conf
-COPY ./deploy/docker/auth-client/php/php.ini /usr/local/etc/php/php.ini
+COPY ./ship/docker/php/php-fpm.d/zzz-www.conf /usr/local/etc/php-fpm.d/zzz-www.conf
+COPY ./ship/docker/php/php.ini /usr/local/etc/php/php.ini
 
 WORKDIR /work
 
-RUN rm -rf tests
+ARG NO_DEV_OPT
+RUN composer install ${NO_DEV_OPT}
 
-RUN composer install --no-dev
+RUN if [ -n "${NO_DEV_OPT}" ]; then \
+        rm -rf tests; \
+    fi
 
-RUN php artisan cache:clear \
-    && php artisan config:clear \
-    && php artisan route:clear \
-    && php artisan view:clear
+#RUN php artisan cache:clear && \
+#    php artisan config:clear && \
+#    php artisan route:clear && \
+#    php artisan view:clear
 
 RUN chown -R www-data:www-data .
-RUN chmod -R a+w storage
-RUN chmod -R a+w bootstrap/cache
+RUN chmod -R a+w storage && \
+    chmod -R a+w bootstrap/cache
