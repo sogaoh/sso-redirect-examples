@@ -16,7 +16,7 @@ ENV TZ=UTC \
 COPY --from=composer:2.0 /usr/bin/composer /usr/bin/composer
 
 RUN apt-get update && \
-  apt-get -y install git libicu-dev libonig-dev libzip-dev unzip locales vim && \
+  apt-get -y install git libicu-dev libonig-dev libzip-dev unzip locales vim net-tools && \
   apt-get clean && \
   rm -rf /var/lib/apt/lists/* && \
   locale-gen en_US.UTF-8 && \
@@ -45,3 +45,5 @@ RUN php artisan cache:clear \
 RUN chown -R www-data:www-data .
 RUN chmod -R a+w storage
 RUN chmod -R a+w bootstrap/cache
+
+EXPOSE 9000
