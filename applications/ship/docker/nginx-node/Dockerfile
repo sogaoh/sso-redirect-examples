@@ -1,7 +1,7 @@
 FROM node:14.2-alpine as node
 LABEL maintainer="Hisashi SOGA <sogaoh@ant-in-giant.work>"
 
-COPY ./applications/auth-client /work
+COPY ./auth-client /work
 
 WORKDIR /work
 
@@ -14,7 +14,8 @@ FROM nginx:1.18-alpine
 
 SHELL ["/bin/ash", "-oeux", "pipefail", "-c"]
 
-ENV TZ=UTC
+#ENV TZ=UTC
+ENV TZ=Asia/Tokyo
 
 RUN apk update && \
   apk add --update --no-cache --virtual=.build-dependencies g++
@@ -27,12 +28,10 @@ COPY --from=node /usr/local/lib /usr/local/lib
 COPY --from=node /opt /opt
 
 # nginx config file
-COPY ./deploy/docker/auth-client/nginx-node/ecs/default.conf /etc/nginx/conf.d/default.conf
+COPY ./ship/docker/nginx-node/ecs/default.conf /etc/nginx/conf.d/default.conf
 
 # copy scripts
 COPY --from=node /work/public /work/public/
 
 
 WORKDIR /work
-
-EXPOSE 80
