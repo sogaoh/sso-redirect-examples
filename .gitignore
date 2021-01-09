@@ -19,6 +19,7 @@
 /applications/auth-client/storage/logs
 /infrastructures/*/*/.terraform
 /infrastructures/*/*/generated
+/infrastructures/*/*/backend.tf
 /infrastructures/*/*/*.tfvars
 /infrastructures/*/*/*.tfvars.*
 /infrastructures/*/*/*.tfstate
