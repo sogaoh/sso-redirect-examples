@@ -48,7 +48,7 @@ workflows:
           filters:
             branches:
               only:
-                - /chore/*/
+                - /chore\/*/
       - build:
           filters:
             branches:
