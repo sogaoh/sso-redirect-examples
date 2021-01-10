@@ -37,9 +37,8 @@ jobs:
 workflows:
   ecr-image-renew:
     jobs:
-      - build
-#      - build:
-#          filters:
-#            branches:
-#              only:
-#                - ecr-renew
+      - build:
+          filters:
+            branches:
+              only:
+                - ecr-renew
