@@ -51,7 +51,8 @@ workflows:
             branches:
               only:
                 #- /chore\/*/
-                - chore/ci-filter-test
+                # - chore/ci-filter-test
+                - /chore*/
 #      - build:
 #          filters:
 #            branches:
