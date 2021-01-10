@@ -1,7 +1,7 @@
 # refs https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/ecr_repository
 
-resource "aws_ecr_repository" "auth-client_proxy-nginx" {
-    name = "auth-client_proxy-nginx"
+resource "aws_ecr_repository" "auth-client_nginx-proxy" {
+    name = "auth-client/nginx-proxy"
 
     # タグのイミュータビリティ
     image_tag_mutability = "MUTABLE"
@@ -18,7 +18,7 @@ resource "aws_ecr_repository" "auth-client_proxy-nginx" {
 }
 
 resource "aws_ecr_repository" "auth-client_laravel-app" {
-    name = "auth-client_laravel-app"
+    name = "auth-client/laravel-app"
 
     # タグのイミュータビリティ
     image_tag_mutability = "MUTABLE"
