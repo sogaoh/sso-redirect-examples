@@ -1,6 +1,13 @@
 version: 2.1
 
 jobs:
+  test:
+    machine: true
+    steps:
+      - run:
+          name: Echo
+          command: |
+            echo "echo"
   build:
     docker:
       - image: circleci/python:3.9
@@ -42,3 +49,8 @@ workflows:
             branches:
               only:
                 - ecr-renew
+      - test:
+          filters:
+            branches:
+              only:
+                - /chore/*/
