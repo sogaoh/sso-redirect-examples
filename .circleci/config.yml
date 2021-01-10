@@ -45,11 +45,13 @@ jobs:
 workflows:
   ecr-image-renew:
     jobs:
-      - build
-#      - build:
-#          filters:
-#            branches:
-#              only: /chore\/*/
+#      - build
+      - build:
+          filters:
+            branches:
+              only:
+                #- /chore\/*/
+                - chore/ci-filter-test
 #      - build:
 #          filters:
 #            branches:
