@@ -48,8 +48,7 @@ workflows:
       - build:
           filters:
             branches:
-              only:
-                - /chore\/*/
+              only: /chore\/*/
 #      - build:
 #          filters:
 #            branches:
