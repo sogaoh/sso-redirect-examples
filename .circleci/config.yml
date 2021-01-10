@@ -2,7 +2,6 @@ version: 2.1
 
 jobs:
   build:
-  #image-build-tag:
     docker:
       - image: circleci/python:3.9
     steps:
@@ -13,18 +12,12 @@ jobs:
           name: Build Images
           command: |
             cd applications
-            sudo make build
+            make build
       - run:
           name: Set Images Tag
           command: |
             cd applications
-            sudo make tag AWS_ACCOUNT_ID=${AWS_ACCOUNT_ID}
-  #ecr-login:
-  #  docker:
-  #    - image: circleci/python:3.9
-  #  steps:
-  #    - setup_remote_docker:
-  #        docker_layer_caching: true
+            make tag AWS_ACCOUNT_ID=${AWS_ACCOUNT_ID}
       - run:
           name: Install AWS CLI
           command: |
@@ -34,31 +27,18 @@ jobs:
       - run:
           name: Login to Amazon ECR
           command: |
-            aws ecr get-login-password --region ${AWS_DEFAULT_REGION} | sudo docker login --username AWS --password-stdin ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com
-  #image-push:
-  #  docker:
-  #    - image: circleci/python:3.9
-  #  steps:
-  #    - checkout
-  #    - setup_remote_docker:
-  #        docker_layer_caching: true
+            aws ecr get-login-password --region ${AWS_DEFAULT_REGION} | docker login --username AWS --password-stdin ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com
       - run:
           name: Push Images
           command: |
             cd applications
-            sudo make push AWS_ACCOUNT_ID=${AWS_ACCOUNT_ID}
+            make push AWS_ACCOUNT_ID=${AWS_ACCOUNT_ID}
 
-#workflows:
-#  ecr-image-renew:
-#    jobs:
-#      - image-build-tag
-#      - ecr-login
-#      - image-push
 workflows:
   ecr-image-renew:
     jobs:
       - build:
-          filters:
-            branches:
-              only:
-                - ecr-renew
+#          filters:
+#            branches:
+#              only:
+#                - ecr-renew
