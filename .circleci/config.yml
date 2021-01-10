@@ -52,7 +52,7 @@ workflows:
               only:
                 #- /chore\/*/
                 # - chore/ci-filter-test
-                - /chore*/
+                - /chore\/.*/
 #      - build:
 #          filters:
 #            branches:
