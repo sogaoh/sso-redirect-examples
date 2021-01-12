@@ -18,6 +18,8 @@ resource "aws_vpc" "vpc_module" {
 ################################
 resource "aws_subnet" "public_subnet_a_module" {
     vpc_id = aws_vpc.vpc_module.id
+    availability_zone = "ap-northeast-1a"
+
     cidr_block                      = var.subnet_a_cidr_block
     map_public_ip_on_launch         = true
     assign_ipv6_address_on_creation = false
@@ -29,6 +31,8 @@ resource "aws_subnet" "public_subnet_a_module" {
 
 resource "aws_subnet" "public_subnet_c_module" {
     vpc_id = aws_vpc.vpc_module.id
+    availability_zone = "ap-northeast-1c"
+
     cidr_block                      = var.subnet_c_cidr_block
     map_public_ip_on_launch         = true
     assign_ipv6_address_on_creation = false
@@ -66,12 +70,12 @@ resource "aws_route_table" "rt_module" {
     }
 }
 
-resource "aws_route_table_association" "rt_asoc_a_module" {
+resource "aws_route_table_association" "rt_assoc_a_module" {
     route_table_id = aws_route_table.rt_module.id
     subnet_id      = aws_subnet.public_subnet_a_module.id
 }
 
-resource "aws_route_table_association" "rt_asoc_c_module" {
+resource "aws_route_table_association" "rt_assoc_c_module" {
     route_table_id = aws_route_table.rt_module.id
     subnet_id      = aws_subnet.public_subnet_c_module.id
 }
