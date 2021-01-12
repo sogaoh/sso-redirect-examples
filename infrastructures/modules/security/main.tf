@@ -18,6 +18,13 @@ resource "aws_security_group" "sg_public_module" {
         cidr_blocks = var.sg_public_443_cidr_blocks
     }
 
+    egress {
+        from_port   = 0
+        to_port     = 0
+        protocol    = "-1"
+        cidr_blocks = var.sg_public_egress_cidr_blocks
+    }
+
     tags = {
         Name = var.sg_public_name
     }

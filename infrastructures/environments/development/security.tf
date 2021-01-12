@@ -15,6 +15,9 @@ module "dev-security" {
     sg_public_443_cidr_blocks = [
         "0.0.0.0/0",
     ]
+    sg_public_egress_cidr_blocks = [
+        "0.0.0.0/0",
+    ]
 
     # Private SG
     sg_private_name = "dev-sg-private"
