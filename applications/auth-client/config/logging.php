@@ -73,7 +73,6 @@ return [
             ],
         ],
 
-
         'stdout' => [
             'driver' => 'monolog',
             'handler' => StreamHandler::class,
