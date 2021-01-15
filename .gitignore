@@ -17,8 +17,11 @@
 /applications/auth-client/storage/framework/testing
 /applications/auth-client/storage/framework/views
 /applications/auth-client/storage/logs
+/infrastructures/*/*/.envrc
 /infrastructures/*/*/.terraform
+/infrastructures/*/*/terraform.d
 /infrastructures/*/*/generated
+/infrastructures/*/*/backend.tf
 /infrastructures/*/*/*.tfvars
 /infrastructures/*/*/*.tfvars.*
 /infrastructures/*/*/*.tfstate

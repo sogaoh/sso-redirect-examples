@@ -2,7 +2,7 @@ version: "3"
 
 services:
   web:
-    image: sso-redirect-examples/web:develop
+    image: auth-client/nginx-proxy:latest
     ports:
       - ${WEB_PORT:-3070}:80
     expose:
@@ -13,7 +13,7 @@ services:
       - client
 
   client:
-    image: sso-redirect-examples/client:develop
+    image: auth-client/laravel-app:latest
     environment:
       - APP_NAME=${APP_NAME_C}
       - APP_ENV=${APP_ENV_C}

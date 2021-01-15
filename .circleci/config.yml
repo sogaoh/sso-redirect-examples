@@ -1,0 +1,44 @@
+version: 2.1
+
+jobs:
+  build:
+    docker:
+      - image: circleci/python:3.9
+    steps:
+      - checkout
+      - setup_remote_docker:
+          docker_layer_caching: false
+      - run:
+          name: Build Images
+          command: |
+            cd applications
+            make build
+      - run:
+          name: Set Images Tag
+          command: |
+            cd applications
+            make tag AWS_ACCOUNT_ID=${AWS_ACCOUNT_ID}
+      - run:
+          name: Install AWS CLI
+          command: |
+            curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+            unzip awscliv2.zip
+            sudo ./aws/install
+      - run:
+          name: Login to Amazon ECR
+          command: |
+            aws ecr get-login-password --region ${AWS_DEFAULT_REGION} | docker login --username AWS --password-stdin ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com
+      - run:
+          name: Push Images
+          command: |
+            cd applications
+            make push AWS_ACCOUNT_ID=${AWS_ACCOUNT_ID}
+
+workflows:
+  ecr-image-renew:
+    jobs:
+      - build:
+          filters:
+            branches:
+              only:
+                - /^ecr-renew\/.*/
