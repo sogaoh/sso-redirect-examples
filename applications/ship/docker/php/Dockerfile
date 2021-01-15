@@ -41,10 +41,10 @@ RUN if [ -n "${NO_DEV_OPT}" ]; then \
         rm -rf tests; \
     fi
 
-#RUN php artisan cache:clear && \
-#    php artisan config:clear && \
-#    php artisan route:clear && \
-#    php artisan view:clear
+RUN php artisan cache:clear && \
+    php artisan config:clear && \
+    php artisan route:clear && \
+    php artisan view:clear
 
 RUN chown -R www-data:www-data .
 RUN chmod -R a+w storage && \

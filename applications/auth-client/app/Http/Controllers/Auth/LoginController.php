@@ -6,11 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Libs\Sso\CognitoAuthRequest;
 use App\Libs\Sso\Trait\SsoRequestHelper;
 use App\Providers\RouteServiceProvider;
-use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 
 class LoginController extends Controller
@@ -81,7 +78,7 @@ class LoginController extends Controller
 //            'status' => $logoutResp->status(),
 //            //'body' => $logoutResp->body(),
 //        ], true));
-
+//
 //        return $request->wantsJson()
 //            ? new JsonResponse([], 204)
 //            : redirect('/');

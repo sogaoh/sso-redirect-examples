@@ -5,12 +5,9 @@ namespace App\Http\Controllers\Sso;
 use App\Http\Controllers\Controller;
 use App\Libs\Sso\CognitoAuthRequest;
 use App\Libs\Sso\Trait\SsoRequestHelper;
-use Illuminate\Http\Client\Response;
-use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Support\Facades\Auth;
-use Psr\Http\Message\ResponseInterface;
+use Illuminate\Support\Facades\Log;
 
 /**
  * Class CognitoController
@@ -36,6 +33,8 @@ class CognitoController extends Controller
      */
     public function login(): RedirectResponse
     {
+        Log::debug('+++++ called Cognito # login +++++');
+
         $state = $this->getStateUuid();
         //TODO: state をここでセッションに保存しておくなど適宜
         return redirect()->away(
@@ -51,6 +50,8 @@ class CognitoController extends Controller
      */
     public function logout(): RedirectResponse
     {
+        Log::debug('..... Cognito # logout .....');
+
         $state = $this->getStateUuid();
         //TODO: state をここでセッションに保存しておくなど適宜
         return redirect()->away(
@@ -67,6 +68,8 @@ class CognitoController extends Controller
      */
     public function callback(Request $request)
     {
+        Log::debug('>>>>> Cognito # callback >>>>>');
+
         //TODO: state のチェック
 
         //Token Request
