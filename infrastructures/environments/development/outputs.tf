@@ -33,3 +33,15 @@ output "out_sg_public_id" {
 output "out_sg_private_id" {
     value = module.dev-security.out_sg_private_id
 }
+
+output "out_ecs_cluster_id" {
+    value = module.dev-ecs-fargate.out_ecs_cluster_id
+}
+
+output "out_alb_dns" {
+    value = module.dev-ecs-fargate.out_alb_dns
+}
+
+output "out_alb_80_tg_name" {
+    value = module.dev-ecs-fargate.out_alb_80_tg_name
+}

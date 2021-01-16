@@ -44,7 +44,7 @@ resource "aws_subnet" "public_subnet_c_module" {
 
 resource "aws_subnet" "private_subnet_b_module" {
     vpc_id = aws_vpc.vpc_module.id
-    availability_zone = "ap-northeast-1b"
+    availability_zone = "ap-northeast-1c"   //"ap-northeast-1b" is unavailable
 
     cidr_block                      = var.subnet_b_cidr_block
     map_public_ip_on_launch         = false
