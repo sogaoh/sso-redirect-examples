@@ -2,7 +2,7 @@ module "dev-ecs-fargate" {
     source = "../../modules/ecs-fargate"
 
     environment_name = "dev"
-    product_name = "sso-examples"
+    product_name = "sso-examples"       //=TF_VAR_PRODUCT_NAME
 
     ################################
     # IAM
@@ -11,7 +11,7 @@ module "dev-ecs-fargate" {
     ################################
     # CloudWatch Log Group
     ################################
-    ecs_service_name = "auth-client"
+    ecs_service_name = "auth-client"    //=TF_VAR_ECS_SERVICE_NAME
 
     ################################
     # ECS Cluster

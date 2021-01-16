@@ -1,0 +1,99 @@
+{
+  "cpu": "256",
+  "memory": "512",
+  "requiresCompatibilities": ["FARGATE"],
+  "family": "{{ must_env `TF_VAR_PRODUCT_NAME` }}_{{ must_env `TF_VAR_ECS_SERVICE_NAME` }}",
+  "taskRoleArn": "{{ tfstate `module.dev-ecs-fargate.aws_iam_role.ecs_tasks_exec_iam_role_module.arn` }}",
+  "executionRoleArn": "{{ tfstate `module.dev-ecs-fargate.aws_iam_role.ecs_tasks_exec_iam_role_module.arn` }}",
+  "networkMode": "awsvpc",
+  "containerDefinitions": [
+    {
+      "name": "{{ must_env `TF_VAR_ECS_SERVICE_NAME` }}",
+      "image": "{{ must_env `NGINX_ECR_IMAGE_REPO_TAG` }}",
+      "portMappings": [
+        {
+          "containerPort": 80,
+          "hostPort": 80,
+          "protocol": "tcp"
+        }
+      ],
+      "essential": true,
+      "dependsOn": [
+        {
+          "containerName": "laravel-app",
+          "condition": "START"
+        }
+      ],
+      "readonlyRootFilesystem": false,
+      "logConfiguration": {
+        "logDriver": "awslogs",
+        "options": {
+          "awslogs-group": "{{ tfstate `module.dev-ecs-fargate.aws_cloudwatch_log_group.ecs_cloudwatch_logs_module.name` }}",
+          "awslogs-region": "{{ must_env `AWS_DEFAULT_REGION` }}",
+          "awslogs-stream-prefix": "nginx"
+        }
+      }
+    },
+    {
+      "name": "laravel-app",
+      "image": "{{ must_env `LARAVEL_ECR_IMAGE_REPO_TAG` }}",
+      "essential": false,
+      "environment": [
+        {
+          "name": "APP_NAME",
+          "value": "SsoExamples"
+        },
+        {
+          "name": "APP_ENV",
+          "value": "development"
+        },
+        {
+          "name": "APP_KEY",
+          "value": "{{ must_env `APP_KEY`}}"
+        },
+        {
+          "name": "APP_DEBUG",
+          "value": "true"
+        },
+        {
+          "name": "APP_URL",
+          "value": "{{ must_env `APP_URL`}}"
+        },
+        {
+          "name": "AWS_COGNITO_DOMAIN_PREFIX",
+          "value": "{{ must_env `AWS_COGNITO_DOMAIN_PREFIX`}}"
+        },
+        {
+          "name": "AWS_COGNITO_REGION",
+          "value": "{{ must_env `AWS_COGNITO_REGION`}}"
+        },
+        {
+          "name": "AWS_COGNITO_CLIENT_ID",
+          "value": "{{ must_env `AWS_COGNITO_CLIENT_ID`}}"
+        },
+        {
+          "name": "AWS_COGNITO_CLIENT_SECRET",
+          "value": "{{ must_env `AWS_COGNITO_CLIENT_SECRET`}}"
+        },
+        {
+          "name": "AWS_COGNITO_USER_POOL_ID",
+          "value": "{{ must_env `AWS_COGNITO_USER_POOL_ID`}}"
+        }
+      ],
+      "secrets": [
+      ],
+      "privileged": false,
+      "readonlyRootFilesystem": false,
+      "logConfiguration": {
+        "logDriver": "awslogs",
+        "options": {
+          "awslogs-group": "{{ tfstate `module.dev-ecs-fargate.aws_cloudwatch_log_group.ecs_cloudwatch_logs_module.name` }}",
+          "awslogs-region": "{{ must_env `AWS_DEFAULT_REGION` }}",
+          "awslogs-datetime-format": "%Y-%m-%d %H:%M:%S",
+          "awslogs-stream-prefix": "laravel"
+        }
+      }
+    }
+  ]
+}
+

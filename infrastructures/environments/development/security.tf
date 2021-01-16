@@ -15,6 +15,9 @@ module "dev-security" {
     sg_public_443_cidr_blocks = [
         "0.0.0.0/0",
     ]
+    sg_public_icmp_cidr_blocks = [
+        module.dev-network.out_vpc_cidr_block,
+    ]
     sg_public_egress_cidr_blocks = [
         "0.0.0.0/0",
     ]
@@ -25,8 +28,11 @@ module "dev-security" {
     sg_private_icmp_cidr_blocks = [
         module.dev-network.out_vpc_cidr_block,
     ]
-    sg_private_22_cidr_blocks   = [
+    sg_private_9000_cidr_blocks   = [
         module.dev-network.out_vpc_cidr_block,
+        "127.0.0.1/32",
     ]
-
+    sg_private_egress_cidr_blocks = [
+        "0.0.0.0/0",
+    ]
 }
