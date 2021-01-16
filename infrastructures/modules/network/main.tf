@@ -55,18 +55,18 @@ resource "aws_subnet" "private_subnet_b_module" {
     }
 }
 
-//resource "aws_subnet" "private_subnet_d_module" {
-//    vpc_id = aws_vpc.vpc_module.id
-//    availability_zone = "ap-northeast-1d"
-//
-//    cidr_block                      = var.subnet_d_cidr_block
-//    map_public_ip_on_launch         = false
-//    assign_ipv6_address_on_creation = false
-//
-//    tags = {
-//        Name = var.subnet_d_name
-//    }
-//}
+resource "aws_subnet" "private_subnet_d_module" {
+    vpc_id = aws_vpc.vpc_module.id
+    availability_zone = "ap-northeast-1d"
+
+    cidr_block                      = var.subnet_d_cidr_block
+    map_public_ip_on_launch         = false
+    assign_ipv6_address_on_creation = false
+
+    tags = {
+        Name = var.subnet_d_name
+    }
+}
 
 ################################
 # Internet Gateway
@@ -92,15 +92,15 @@ resource "aws_eip" "nat_gw_eip_b_module" {
     depends_on = [aws_internet_gateway.igw_module]
 }
 
-//resource "aws_nat_gateway" "nat_gw_d_module" {
-//    allocation_id = aws_eip.nat_gw_eip_d_module.id
-//    subnet_id     = aws_subnet.public_subnet_c_module.id
-//    depends_on    = [aws_internet_gateway.igw_module]
-//}
-//resource "aws_eip" "nat_gw_eip_d_module" {
-//    vpc        = true
-//    depends_on = [aws_internet_gateway.igw_module]
-//}
+resource "aws_nat_gateway" "nat_gw_d_module" {
+    allocation_id = aws_eip.nat_gw_eip_d_module.id
+    subnet_id     = aws_subnet.public_subnet_c_module.id
+    depends_on    = [aws_internet_gateway.igw_module]
+}
+resource "aws_eip" "nat_gw_eip_d_module" {
+    vpc        = true
+    depends_on = [aws_internet_gateway.igw_module]
+}
 
 ################################
 # Route Table
@@ -147,20 +147,20 @@ resource "aws_route_table_association" "private_rt_assoc_b_module" {
 }
 
 
-//resource "aws_route_table" "private_rt_d_module" {
-//    vpc_id = aws_vpc.vpc_module.id
-//
-//    route {
-//        cidr_block = var.private_rt_d_cidr_block
-//        nat_gateway_id = aws_nat_gateway.nat_gw_d_module.id
-//    }
-//
-//    tags = {
-//        Name = var.private_rt_d_name
-//    }
-//}
-//
-//resource "aws_route_table_association" "private_rt_assoc_d_module" {
-//    subnet_id = aws_subnet.private_subnet_d_module.id
-//    route_table_id = aws_route_table.private_rt_d_module.id
-//}
+resource "aws_route_table" "private_rt_d_module" {
+    vpc_id = aws_vpc.vpc_module.id
+
+    route {
+        cidr_block = var.private_rt_d_cidr_block
+        nat_gateway_id = aws_nat_gateway.nat_gw_d_module.id
+    }
+
+    tags = {
+        Name = var.private_rt_d_name
+    }
+}
+
+resource "aws_route_table_association" "private_rt_assoc_d_module" {
+    subnet_id = aws_subnet.private_subnet_d_module.id
+    route_table_id = aws_route_table.private_rt_d_module.id
+}

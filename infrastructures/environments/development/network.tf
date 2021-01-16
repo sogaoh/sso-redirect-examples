@@ -19,8 +19,8 @@ module "dev-network" {
     subnet_b_name = "dev-private-subnet-b"
     subnet_b_cidr_block = "10.0.100.0/24"
 
-    //subnet_d_name = "dev-private-subnet-d"
-    //subnet_d_cidr_block = "10.0.101.0/24"
+    subnet_d_name = "dev-private-subnet-d"
+    subnet_d_cidr_block = "10.0.101.0/24"
 
 
     ################################
@@ -41,6 +41,6 @@ module "dev-network" {
     private_rt_b_name = "dev-private-b-rt"
     private_rt_b_cidr_block = "0.0.0.0/0"
 
-    //private_rt_d_name = "dev-private-d-rt"
-    //private_rt_d_cidr_block = "0.0.0.0/0"
+    private_rt_d_name = "dev-private-d-rt"
+    private_rt_d_cidr_block = "0.0.0.0/0"
 }
