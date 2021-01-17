@@ -73,7 +73,7 @@ resource "aws_lb_listener" "alb_80_listener_module" {
     load_balancer_arn = aws_lb.alb_module.id
 
     default_action {
-        target_group_arn = aws_lb_target_group.alb_80_target_group_module.arn
+        target_group_arn = aws_lb_target_group.alb_target_group_default_module.arn
         type = "forward"
     }
 
@@ -81,8 +81,24 @@ resource "aws_lb_listener" "alb_80_listener_module" {
     protocol = "HTTP"
 }
 
-resource "aws_lb_target_group" "alb_80_target_group_module" {
-    name = "${var.environment_name}-${var.product_name}-alb-80-tg"
+//resource "aws_lb_listener" "alb_443_listener_module" {
+//    load_balancer_arn = aws_lb.alb_module.id
+//
+//    ssl_policy        = "ELBSecurityPolicy-2016-08"
+//    certificate_arn   = aws_acm_certificate.alb_443_acm_cert_module.arn
+//
+//    default_action {
+//        target_group_arn = aws_lb_target_group.alb_target_group_default_module.arn
+//        type = "forward"
+//    }
+//
+//    port = 443
+//    protocol = "HTTPS"
+//}
+
+
+resource "aws_lb_target_group" "alb_target_group_default_module" {
+    name = "${var.environment_name}-${var.product_name}-alb-tg-default"
 
     vpc_id = var.vpc_id
 
@@ -92,6 +108,6 @@ resource "aws_lb_target_group" "alb_80_target_group_module" {
     protocol = "HTTP"
 
     tags = {
-        Name = "${var.environment_name}-${var.product_name}-alb-80-tg"
+        Name = "${var.environment_name}-${var.product_name}-alb-tg-default"
     }
 }

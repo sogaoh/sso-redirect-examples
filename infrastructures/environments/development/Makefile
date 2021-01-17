@@ -4,7 +4,7 @@ help:
 	cat Makefile
 
 
-CONF_OPT := --config ./auth-client/config.yaml
+CONF_OPT := --config ecs/auth-client/config.yaml
 
 
 # ecspresso
