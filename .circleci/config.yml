@@ -4,6 +4,9 @@ jobs:
   build:
     docker:
       - image: circleci/python:3.9
+        auth:
+          username: ${DOCKER_LOGIN}
+          password: ${DOCKER_PWD}
     steps:
       - checkout
       - setup_remote_docker:

@@ -27,3 +27,15 @@ resource "circleci_environment_variable" "aws_account_id" {
     name    = "AWS_ACCOUNT_ID"
     value   = var.aws_account_id
 }
+
+resource "circleci_environment_variable" "docker_login" {
+    project = var.circleci_project_name
+    name    = "DOCKER_LOGIN"
+    value   = var.docker_login
+}
+
+resource "circleci_environment_variable" "docker_pwd" {
+    project = var.circleci_project_name
+    name    = "DOCKER_PWD"
+    value   = var.docker_pwd
+}
