@@ -1,10 +1,10 @@
-module "dev-security" {
+module "security" {
     source = "../../modules/security"
 
     ################################
     # Security Group
     ################################
-    vpc_id = module.dev-network.out_vpc_id
+    vpc_id = module.network.out_vpc_id
 
     # Public SG
     sg_public_name = "dev-sg-public"
@@ -16,7 +16,7 @@ module "dev-security" {
         "0.0.0.0/0",
     ]
     sg_public_icmp_cidr_blocks = [
-        module.dev-network.out_vpc_cidr_block,
+        module.network.out_vpc_cidr_block,
     ]
     sg_public_egress_cidr_blocks = [
         "0.0.0.0/0",
@@ -26,10 +26,10 @@ module "dev-security" {
     sg_private_name = "dev-sg-private"
     sg_private_description = "dev private security group"
     sg_private_icmp_cidr_blocks = [
-        module.dev-network.out_vpc_cidr_block,
+        module.network.out_vpc_cidr_block,
     ]
     sg_private_9000_cidr_blocks   = [
-        module.dev-network.out_vpc_cidr_block,
+        module.network.out_vpc_cidr_block,
         "127.0.0.1/32",
     ]
     sg_private_egress_cidr_blocks = [

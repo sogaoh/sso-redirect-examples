@@ -1,4 +1,4 @@
-module "dev-network" {
+module "network" {
     source = "../../modules/network"
 
     ################################
@@ -31,6 +31,8 @@ module "dev-network" {
     ################################
     # NAT Gateway
     ################################
+    nat_gw_b_name = "reference-nat-gw-b"
+    nat_gw_d_name = "reference-nat-gw-d"
 
     ################################
     # Route Table

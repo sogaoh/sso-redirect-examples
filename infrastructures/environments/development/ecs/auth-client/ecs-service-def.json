@@ -15,18 +15,18 @@
     {
       "containerName": "{{ must_env `TF_VAR_ECS_SERVICE_NAME` }}",
       "containerPort": 80,
-      "targetGroupArn": "{{ tfstate `module.dev-ecs-fargate.aws_lb_target_group.alb_80_target_group_module.arn` }}"
+      "targetGroupArn": "{{ tfstate `module.ecs-fargate.aws_lb_target_group.alb_target_group_default_module.arn` }}"
     }
   ],
   "networkConfiguration": {
     "awsvpcConfiguration": {
       "assignPublicIp": "DISABLED",
       "securityGroups": [
-        "{{ tfstate `module.dev-security.aws_security_group.sg_private_module.id` }}"
+        "{{ tfstate `module.security.aws_security_group.sg_private_module.id` }}"
       ],
       "subnets": [
-        "{{ tfstate `module.dev-network.aws_subnet.private_subnet_b_module.id` }}",
-        "{{ tfstate `module.dev-network.aws_subnet.private_subnet_d_module.id` }}"
+        "{{ tfstate `module.network.aws_subnet.private_subnet_b_module.id` }}",
+        "{{ tfstate `module.network.aws_subnet.private_subnet_d_module.id` }}"
       ]
     }
   },

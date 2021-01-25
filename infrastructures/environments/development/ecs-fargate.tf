@@ -1,4 +1,4 @@
-module "dev-ecs-fargate" {
+module "ecs-fargate" {
     source = "../../modules/ecs-fargate"
 
     environment_name = "dev"
@@ -16,12 +16,21 @@ module "dev-ecs-fargate" {
     ################################
     # ECS Cluster
     ################################
+    ecs_cluster_name = "dev-sso-examples"
 
     ################################
     # ALB
     ################################
-    vpc_id = module.dev-network.out_vpc_id
-    public_subnet_a_id = module.dev-network.out_public_subnet_a_id
-    public_subnet_c_id = module.dev-network.out_public_subnet_c_id
-    sg_public_id = module.dev-security.out_sg_public_id
+    zone_id =  var.dns_zone_id
+    certificate_arn = var.wc_certificate_arn
+    dns_sub_domain = "dev-sso-examples"
+    dns_cname_ttl = 5
+
+    alb_name = "dev-sso-examples-alb"
+    alb_default_target_name = "dev-sso-examples-ecs"
+
+    vpc_id = module.network.out_vpc_id
+    public_subnet_a_id = module.network.out_public_subnet_a_id
+    public_subnet_c_id = module.network.out_public_subnet_c_id
+    sg_public_id = module.security.out_sg_public_id
 }
