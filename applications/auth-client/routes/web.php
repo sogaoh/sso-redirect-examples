@@ -1,7 +1,14 @@
 <?php
 
+use App\Http\Controllers\HomeController;
 use App\Http\Controllers\Sso\CognitoController;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\URL;
+
+if (!App::environment('local')) {
+    URL::forceScheme('https');
+}
 
 /*
 |--------------------------------------------------------------------------
@@ -39,5 +46,5 @@ Route::group(['prefix' => 'sso'], function () {
 
 //Route::match(['get', 'post'],
 Route::get(
-    '/home', [App\Http\Controllers\HomeController::class, 'index']
+    '/home', [HomeController::class, 'index']
 )->name('home');
