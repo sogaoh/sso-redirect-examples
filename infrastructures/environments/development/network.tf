@@ -31,8 +31,8 @@ module "network" {
     ################################
     # NAT Gateway
     ################################
-    nat_gw_b_name = "reference-nat-gw-b"
-    nat_gw_d_name = "reference-nat-gw-d"
+    nat_gw_b_name = "dev-nat-gw-b"
+    nat_gw_d_name = "dev-nat-gw-d"
 
     ################################
     # Route Table

@@ -86,6 +86,10 @@ resource "aws_nat_gateway" "nat_gw_b_module" {
     allocation_id = aws_eip.nat_gw_eip_b_module.id
     subnet_id     = aws_subnet.public_subnet_a_module.id
     depends_on    = [aws_internet_gateway.igw_module]
+
+    tags = {
+        Name = var.nat_gw_b_name
+    }
 }
 resource "aws_eip" "nat_gw_eip_b_module" {
     vpc        = true
@@ -96,6 +100,10 @@ resource "aws_nat_gateway" "nat_gw_d_module" {
     allocation_id = aws_eip.nat_gw_eip_d_module.id
     subnet_id     = aws_subnet.public_subnet_c_module.id
     depends_on    = [aws_internet_gateway.igw_module]
+
+    tags = {
+        Name = var.nat_gw_d_name
+    }
 }
 resource "aws_eip" "nat_gw_eip_d_module" {
     vpc        = true
