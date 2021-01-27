@@ -14,8 +14,8 @@ variable "subnet_d_name" {}
 variable "subnet_d_cidr_block" {}
 
 variable "igw_name" {}
-variable "nat_gw_b_name" {}
-variable "nat_gw_d_name" {}
+variable "nat_gw_a_name" {}
+variable "nat_gw_c_name" {}
 
 variable "public_rt_name" {}
 variable "public_rt_cidr_block" {}

@@ -24,7 +24,7 @@ module "ecs-fargate" {
     zone_id =  var.dns_zone_id
     certificate_arn = var.wc_certificate_arn
     dns_sub_domain = "dev-sso-examples"
-    dns_cname_ttl = 5
+    dns_cname_ttl = 30
 
     alb_name = "dev-sso-examples-alb"
     alb_default_target_name = "dev-sso-examples-ecs"

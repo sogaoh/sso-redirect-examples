@@ -38,10 +38,10 @@ output "out_igw_id" {
 }
 
 output "out_nat_gw_b_eip" {
-    value = aws_nat_gateway.nat_gw_b_module.public_ip
+    value = aws_nat_gateway.nat_gw_a_module.public_ip
 }
 output "out_nat_gw_d_eip" {
-    value = aws_nat_gateway.nat_gw_d_module.public_ip
+    value = aws_nat_gateway.nat_gw_c_module.public_ip
 }
 
 output "out_public_rt_id" {

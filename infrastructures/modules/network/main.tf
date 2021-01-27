@@ -82,30 +82,30 @@ resource "aws_internet_gateway" "igw_module" {
 ################################
 # NAT Gateway
 ################################
-resource "aws_nat_gateway" "nat_gw_b_module" {
-    allocation_id = aws_eip.nat_gw_eip_b_module.id
+resource "aws_nat_gateway" "nat_gw_a_module" {
+    allocation_id = aws_eip.nat_gw_eip_a_module.id
     subnet_id     = aws_subnet.public_subnet_a_module.id
     depends_on    = [aws_internet_gateway.igw_module]
 
     tags = {
-        Name = var.nat_gw_b_name
+        Name = var.nat_gw_a_name
     }
 }
-resource "aws_eip" "nat_gw_eip_b_module" {
+resource "aws_eip" "nat_gw_eip_a_module" {
     vpc        = true
     depends_on = [aws_internet_gateway.igw_module]
 }
 
-resource "aws_nat_gateway" "nat_gw_d_module" {
-    allocation_id = aws_eip.nat_gw_eip_d_module.id
+resource "aws_nat_gateway" "nat_gw_c_module" {
+    allocation_id = aws_eip.nat_gw_eip_c_module.id
     subnet_id     = aws_subnet.public_subnet_c_module.id
     depends_on    = [aws_internet_gateway.igw_module]
 
     tags = {
-        Name = var.nat_gw_d_name
+        Name = var.nat_gw_c_name
     }
 }
-resource "aws_eip" "nat_gw_eip_d_module" {
+resource "aws_eip" "nat_gw_eip_c_module" {
     vpc        = true
     depends_on = [aws_internet_gateway.igw_module]
 }
@@ -141,7 +141,7 @@ resource "aws_route_table" "private_rt_b_module" {
 
     route {
         cidr_block = var.private_rt_b_cidr_block
-        nat_gateway_id = aws_nat_gateway.nat_gw_b_module.id
+        nat_gateway_id = aws_nat_gateway.nat_gw_a_module.id
     }
 
     tags = {
@@ -160,7 +160,7 @@ resource "aws_route_table" "private_rt_d_module" {
 
     route {
         cidr_block = var.private_rt_d_cidr_block
-        nat_gateway_id = aws_nat_gateway.nat_gw_d_module.id
+        nat_gateway_id = aws_nat_gateway.nat_gw_c_module.id
     }
 
     tags = {
