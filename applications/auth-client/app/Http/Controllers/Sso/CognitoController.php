@@ -104,15 +104,9 @@ class CognitoController extends Controller
      */
     private function getAuthorizedUser(array $userInfo): User
     {
-        //TODO: delete
-        //Log::debug(var_export(['userInfo' => $userInfo], true));
-
         $q = User::query();
         $q->where('email', $userInfo['email']);
         $user = $q->first();
-
-        //TODO: delete
-        //Log::debug(var_export(['user0' => $user], true));
 
         if (!$user) {
             $user = User::create([
@@ -122,11 +116,6 @@ class CognitoController extends Controller
             ]);
         }
 
-        //TODO: delete
-        //Log::debug(var_export(['user1' => $user], true));
-
-        //Auth::login($user);
-        //Auth::setUser($user);
         return $user;
     }
 }
