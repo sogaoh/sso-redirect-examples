@@ -92,14 +92,9 @@ class CognitoController extends Controller
         );
         $userInfo = \is_array($decodedUser) ? $decodedUser : [];
 
+        //setUser
         Auth::setUser($this->getAuthorizedUser($userInfo));
 
-        //NOTE:
-        //DBがあるならここで認証処理（Auth::login(<照合された User Model>)）
-        //をしておくのが良さそう
-        //そして、 redirect()->intended('/home'); するのがたぶん標準的な実装
-
-        //$request->session()->put('userInfo', $userInfo);
         return redirect()->route('home');
     }
 
