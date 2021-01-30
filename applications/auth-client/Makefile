@@ -4,7 +4,14 @@ help:
 	cat Makefile
 
 # nginx-node
-
+npmi:
+	npm i
+npmw:
+	npm run watch
+npmd:
+	npm run dev
+npmp:
+	npm run prod
 
 # laravel
 vendor: composer.json composer.lock
