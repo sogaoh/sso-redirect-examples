@@ -5,8 +5,10 @@ namespace App\Http\Controllers\Sso;
 use App\Http\Controllers\Controller;
 use App\Libs\Sso\CognitoAuthRequest;
 use App\Libs\Sso\Trait\SsoRequestHelper;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 
 /**
@@ -85,16 +87,51 @@ class CognitoController extends Controller
         $userInfoResponse = $this->invoker->invokeUserInfoRequest([
             'access_token' => $tokens['access_token']
         ]);
-        $userInfo = \json_decode(
+        $decodedUser = \json_decode(
             $userInfoResponse->body(), true
         );
+        $userInfo = \is_array($decodedUser) ? $decodedUser : [];
+
+        Auth::setUser($this->getAuthorizedUser($userInfo));
 
         //NOTE:
         //DBがあるならここで認証処理（Auth::login(<照合された User Model>)）
         //をしておくのが良さそう
         //そして、 redirect()->intended('/home'); するのがたぶん標準的な実装
 
-        $request->session()->put('userInfo', $userInfo);
+        //$request->session()->put('userInfo', $userInfo);
         return redirect()->route('home');
+    }
+
+    /**
+     * @param array $userInfo
+     * @return User
+     */
+    private function getAuthorizedUser(array $userInfo): User
+    {
+        //TODO: delete
+        //Log::debug(var_export(['userInfo' => $userInfo], true));
+
+        $q = User::query();
+        $q->where('email', $userInfo['email']);
+        $user = $q->first();
+
+        //TODO: delete
+        //Log::debug(var_export(['user0' => $user], true));
+
+        if (!$user) {
+            $user = User::create([
+                'name' => $userInfo['username'],
+                'email' => $userInfo['email'],
+                'cognito_sub' => $userInfo['sub']
+            ]);
+        }
+
+        //TODO: delete
+        //Log::debug(var_export(['user1' => $user], true));
+
+        //Auth::login($user);
+        //Auth::setUser($user);
+        return $user;
     }
 }
