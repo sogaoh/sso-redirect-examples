@@ -8,7 +8,6 @@ use App\Libs\Sso\Trait\SsoRequestHelper;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Http\Request;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
-use Illuminate\Support\Facades\Log;
 
 class LoginController extends Controller
 {
@@ -45,8 +44,6 @@ class LoginController extends Controller
     public function __construct()
     {
         $this->middleware('guest')->except('logout');
-
-        //$this->invoker = new CognitoAuthRequest(null);
     }
 
     /**
@@ -68,19 +65,7 @@ class LoginController extends Controller
             return $response;
         }
 
-        return redirect()->route('sso.cognito.logout');
-
-//        $logoutResp = $this->invoker->invokeLogoutRequest([
-//            'state'  => $this->getStateUuid(),
-//            'appUrl' => config('app.url')
-//        ]);
-//        Log::debug(var_export([
-//            'status' => $logoutResp->status(),
-//            //'body' => $logoutResp->body(),
-//        ], true));
-//
-//        return $request->wantsJson()
-//            ? new JsonResponse([], 204)
-//            : redirect('/');
+        //return redirect()->route('sso.cognito.logout');
+        return redirect()->route('welcome');
     }
 }

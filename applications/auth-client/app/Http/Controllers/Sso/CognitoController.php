@@ -21,6 +21,9 @@ class CognitoController extends Controller
 {
     use SsoRequestHelper;
 
+    /** @var string STATE_CACHE_IDENTIFIER */
+    const STATE_CACHE_IDENTIFIER = 'stateCache';
+
     /** @var CognitoAuthRequest  */
     private CognitoAuthRequest $invoker;
 
@@ -42,7 +45,7 @@ class CognitoController extends Controller
         $state = $this->getStateUuid();
 
         // state を 90秒間保存
-        Cache::store('stateCache')->add(
+        Cache::store(self::STATE_CACHE_IDENTIFIER)->add(
             $state,
             Carbon::now()->format('Y-m-d H:i:s'),
             90
@@ -66,7 +69,7 @@ class CognitoController extends Controller
         $state = $this->getStateUuid();
 
         // state を 90秒間保存
-        Cache::store('stateCache')->add(
+        Cache::store(self::STATE_CACHE_IDENTIFIER)->add(
             $state,
             Carbon::now()->format('Y-m-d H:i:s'),
             90
@@ -91,7 +94,7 @@ class CognitoController extends Controller
 
         $warningDateTime = '';
         // state のチェック
-        $cachedState = Cache::store('stateCache')->get(
+        $cachedState = Cache::store(self::STATE_CACHE_IDENTIFIER)->get(
             $request->get('state')
         );
         if ($cachedState === null) {
