@@ -6,9 +6,11 @@ use App\Http\Controllers\Controller;
 use App\Libs\Sso\CognitoAuthRequest;
 use App\Libs\Sso\Trait\SsoRequestHelper;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Log;
 
 /**
@@ -38,7 +40,14 @@ class CognitoController extends Controller
         Log::debug('+++++ called Cognito # login +++++');
 
         $state = $this->getStateUuid();
-        //TODO: state をここでセッションに保存しておくなど適宜
+
+        // state を 90秒間保存
+        Cache::store('stateCache')->add(
+            $state,
+            Carbon::now()->format('Y-m-d H:i:s'),
+            90
+        );
+
         return redirect()->away(
             \urldecode($this->invoker->buildLoginRequest([
                 'state'   => $state,
@@ -55,7 +64,14 @@ class CognitoController extends Controller
         Log::debug('..... Cognito # logout .....');
 
         $state = $this->getStateUuid();
-        //TODO: state をここでセッションに保存しておくなど適宜
+
+        // state を 90秒間保存
+        Cache::store('stateCache')->add(
+            $state,
+            Carbon::now()->format('Y-m-d H:i:s'),
+            90
+        );
+
         return redirect()->away(
             \urldecode($this->invoker->buildLogoutRequest([
                 'state'   => $state,
@@ -66,13 +82,22 @@ class CognitoController extends Controller
 
     /**
      * @param Request $request
-     * @return mixed
+     * @return RedirectResponse
+     * @throws \Psr\SimpleCache\InvalidArgumentException
      */
     public function callback(Request $request)
     {
         Log::debug('>>>>> Cognito # callback >>>>>');
 
-        //TODO: state のチェック
+        $warningDateTime = '';
+        // state のチェック
+        $cachedState = Cache::store('stateCache')->get(
+            $request->get('state')
+        );
+        if ($cachedState === null) {
+            //あとでワーニングをログに出すだけ
+            $warningDateTime = Carbon::now()->format('Y-m-d H:i:s');
+        }
 
         //Token Request
         $tokenResponse = $this->invoker->invokeTokenRequest([
@@ -93,7 +118,16 @@ class CognitoController extends Controller
         $userInfo = \is_array($decodedUser) ? $decodedUser : [];
 
         //setUser
-        Auth::setUser($this->getAuthorizedUser($userInfo));
+        $user = $this->getAuthorizedUser($userInfo);
+        Auth::setUser($user);
+
+        //State Not Found warning log
+        if (\mb_strlen($warningDateTime) > 0) {
+            Log::warning(
+                '*** State Not Found: userId=' . $user->id .
+                ', datetime='. $warningDateTime
+            );
+        }
 
         return redirect()->route('home');
     }

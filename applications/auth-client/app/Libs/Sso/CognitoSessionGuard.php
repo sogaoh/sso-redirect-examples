@@ -12,7 +12,9 @@ use Illuminate\Http\Request;
  */
 class CognitoSessionGuard implements Guard
 {
+    /** @var string SESSION_KEY */
     const SESSION_KEY = 'Cognito';
+
     /**
      * The currently authenticated user.
      *
@@ -99,6 +101,7 @@ class CognitoSessionGuard implements Guard
     }
 
     /**
+     * get session user.
      * @return mixed
      */
     private function getSessionUser()
@@ -107,7 +110,8 @@ class CognitoSessionGuard implements Guard
     }
 
     /**
-     *
+     * logout of CognitoSessionGuard <br>
+     * (call from App\Http\Controllers\Sso\CognitoController # logout)
      */
     public function logout(): void
     {
