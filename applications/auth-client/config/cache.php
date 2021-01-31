@@ -78,6 +78,11 @@ return [
             'connection' => 'cache',
             'lock_connection' => 'default',
         ],
+        'stateCache' => [
+            'driver' => 'redis',
+            'connection' => 'cache',
+            'lock_connection' => 'default',
+        ],
 
         'dynamodb' => [
             'driver' => 'dynamodb',
