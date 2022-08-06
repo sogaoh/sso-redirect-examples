@@ -7,7 +7,7 @@ const workDir = new Option('-wd, --workDir [workDir]', 'working directory.')
 
 const composeAction = new Option('-ca, --composeAction [composeAction]', 'compose action.')
   .default('none')
-  .choices(['none', 'up', 'down', 'exec', 'logs', 'build'])
+  .choices(['none', 'up', 'down', 'exec', 'logs', 'build', 'chmod'])
 
 const composeOptions = new Option('-co, --composeOptions [composeOptions]', 'compose options.')
   .default('none')

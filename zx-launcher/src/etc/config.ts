@@ -5,6 +5,7 @@ const ComposeAction = {
   EXEC: 'exec',
   LOGS: 'logs',
   BLD:  'build',
+  CHMOD:'chmod',
 }
 type ComposeAction = typeof ComposeAction[keyof typeof ComposeAction]
 

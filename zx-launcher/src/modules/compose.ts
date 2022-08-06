@@ -3,6 +3,7 @@
 import { $ } from 'zx'
 import { ComposeAction, ComposeOptionsMap, ContainerShellMap } from '../etc/config.js'
 import { Options } from '../etc/options.js'
+import { Parallels } from './parallel.js'
 
 interface ComposeProps {
   opts: Options
@@ -13,6 +14,7 @@ export class Compose {
   constructor(props: ComposeProps) {
     this.props = props
   }
+
   executor = async (): Promise<void> => {
     const opts = this.props.opts
     const composeOptionString = ComposeOptionsMap.get(opts.composeOptions)
@@ -51,5 +53,43 @@ export class Compose {
     //console.log(this.props.opts)
     //console.log(execCmd)
     await $`cd ${process.env.WORK_DIR};`.pipe($`${execCmd}`)
+  }
+
+  chmod = async () => {
+    const chmodStorage = [
+      'docker-compose',
+      '-f',
+      `${process.env.WORK_DIR}/docker-compose.yml`,
+      'exec',
+      'client',
+      'chmod',
+      '-R',
+      'a+w',
+      'storage'
+    ]
+    const chmodBootstrapCache = [
+      'docker-compose',
+      '-f',
+      `${process.env.WORK_DIR}/docker-compose.yml`,
+      'exec',
+      'client',
+      'chmod',
+      '-R',
+      'a+w',
+      'bootstrap/cache'
+    ]
+
+    const p8s = Parallels<void>()
+    p8s.add(
+      new Promise(async _ => {
+        await $`${chmodStorage}`.nothrow()
+      }),
+    )
+    p8s.add(
+      new Promise(async _ => {
+        await $`${chmodBootstrapCache}`.nothrow()
+      }),
+    )
+    p8s.all()
   }
 }

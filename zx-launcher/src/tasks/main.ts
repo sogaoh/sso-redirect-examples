@@ -20,6 +20,8 @@ if (opts.debug) console.log(opts)
 
 
 const composeExecutor = new Compose({ opts })
-if (opts.composeAction != ComposeAction.NONE) {
-    await composeExecutor.executor()
+if (opts.composeAction == ComposeAction.CHMOD) {
+  await composeExecutor.chmod()
+} else if (opts.composeAction != ComposeAction.NONE) {
+  await composeExecutor.executor()
 }
