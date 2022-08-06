@@ -11,7 +11,7 @@ const composeOptions = new Option('-co, --composeOptions [composeOptions]', 'com
 
 const targetContainer = new Option('-tc, --targetContainer [targetContainer]', 'target container.')
   .default('')
-  .choices(['', 'web', 'cln', 'db', 'redis'])
+  .choices(['', 'web', 'client', 'db', 'redis'])
 
 const debug = new Option('-D, --debug [debug]', 'use debug mode(show console log)').default(false)
 

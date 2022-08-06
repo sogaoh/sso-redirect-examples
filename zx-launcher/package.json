@@ -5,7 +5,15 @@
     "help": "npm run _runner_ -h",
     "run:up": "npm run _runner_ -- -ca up -co u_d",
     "run:upb": "npm run _runner_ -- -ca up -co u_db",
-    "run:down": "npm run _runner_ -- -ca down -co d_ro"
+    "run:down": "npm run _runner_ -- -ca down -co d_ro",
+    "run:exec:web": "npm run _runner_ -- -ca exec -tc web",
+    "run:exec:cln": "npm run _runner_ -- -ca exec -tc client",
+    "run:exec:db": "npm run _runner_ -- -ca exec -tc db",
+    "run:exec:redis": "npm run _runner_ -- -ca exec -tc redis",
+    "run:logs:web": "npm run _runner_ -- -ca logs -tc web",
+    "run:logs:cln": "npm run _runner_ -- -ca logs -tc client",
+    "run:logs:db": "npm run _runner_ -- -ca logs -tc db",
+    "run:logs:redis": "npm run _runner_ -- -ca logs -tc redis"
   },
   "devDependencies": {
     "commander": "^9.4.0",

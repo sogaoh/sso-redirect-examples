@@ -14,6 +14,14 @@ const Container = {
 }
 type Container = typeof Container[keyof typeof Container]
 
+const ContainerShellMap = new Map([
+  [Container.WEB,   'ash'],
+  [Container.CLN,   'bash'],
+  [Container.DB,    'bash'],
+  [Container.REDIS, 'ash'],
+])
+type ContainerShellMap = typeof ContainerShellMap[keyof typeof ContainerShellMap]
+
 const ComposeOptionsType = {
   NONE: 'none',
   U_D:  'u_d',
@@ -24,7 +32,7 @@ type ComposeOptionsType = typeof ComposeOptionsType[keyof typeof ComposeOptionsT
 
 const ComposeOptionsMap = new Map([
   [ComposeOptionsType.NONE, ''],
-  [ComposeOptionsType.U_D, '-d'],
+  [ComposeOptionsType.U_D,  '-d'],
   [ComposeOptionsType.U_DB, '-d --build'],
   [ComposeOptionsType.D_RO, '--remove-orphans'],
 ])
@@ -39,6 +47,7 @@ type ActivateType = typeof ActivateType[keyof typeof ActivateType]
 export {
   ComposeAction,
   Container,
+  ContainerShellMap,
   ComposeOptionsMap,
   ActivateType
 }

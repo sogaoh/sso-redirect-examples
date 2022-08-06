@@ -16,6 +16,6 @@ if (opts.debug) console.log($.env)
 
 
 const composeExecutor = new Compose({ opts })
-if (true) {
+if (true) { //TODO
     await composeExecutor.executor()
 }
