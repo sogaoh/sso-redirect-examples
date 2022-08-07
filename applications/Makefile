@@ -5,8 +5,9 @@ help:
 
 
 IMG_TAG := latest
-BLDARG_NODEV_OPT := --build-arg=NO_DEV_OPT=--no-dev
-#BLDARG_NODEV_OPT=--build-arg=NO_DEV_OPT=
+NO_DEV_OPT := --no-dev
+BLDARG_NODEV_OPT := --build-arg NO_DEV_OPT=$(NO_DEV_OPT)
+#BLDARG_NODEV_OPT=--build-arg NO_DEV_OPT=
 AWS_ACCOUNT_ID :=
 AWS_REGION := ap-northeast-1
 

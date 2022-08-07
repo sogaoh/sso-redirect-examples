@@ -25,6 +25,18 @@ const ContainerShellMap = new Map([
 ])
 type ContainerShellMap = typeof ContainerShellMap[keyof typeof ContainerShellMap]
 
+const ContainerIdentifierMap = new Map([
+  [Container.WEB,   'nginx'],
+  [Container.CLN,   'laravel'],
+])
+type ContainerIdentifierMap = typeof ContainerIdentifierMap[keyof typeof ContainerIdentifierMap]
+
+const ContainerNameMap = new Map([
+  [Container.WEB,   'auth-client/nginx-proxy'],
+  [Container.CLN,   'auth-client/laravel-app'],
+])
+type ContainerNameMap = typeof ContainerNameMap[keyof typeof ContainerNameMap]
+
 const ComposeOptionsType = {
   NONE: 'none',
   U_D:  'u_d',
@@ -58,6 +70,7 @@ const DockerOptionsType = {
   NONE:  'none',
   P_VF:  'p_vf',
   P_ALL: 'p_all',
+  B_NC:  'b_nc',
 }
 type DockerOptionsType = typeof DockerOptionsType[keyof typeof DockerOptionsType]
 
@@ -65,6 +78,7 @@ const DockerOptionsMap = new Map([
   [DockerOptionsType.NONE,  ''],
   [DockerOptionsType.P_VF,  '--volumes --force'],
   [DockerOptionsType.P_ALL, '--all --force'],
+  [DockerOptionsType.B_NC,  '--no-cache'],
 ])
 type DockerOptionsMap = typeof DockerOptionsMap[keyof typeof DockerOptionsMap]
 
@@ -78,6 +92,8 @@ export {
   ComposeAction,
   Container,
   ContainerShellMap,
+  ContainerIdentifierMap,
+  ContainerNameMap,
   ComposeOptionsMap,
   DockerAction,
   DockerOptionsMap,

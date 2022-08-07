@@ -23,7 +23,7 @@ const dockerAction = new Option('-da, --dockerAction [dockerAction]', 'docker ac
 
 const dockerOptions = new Option('-do, --dockerOptions [dockerOptions]', 'docker options.')
   .default('none')
-  .choices(['none', 'p_vf', 'p_all'])
+  .choices(['none', 'p_vf', 'p_all', 'b_nc'])
 
 const debug = new Option('-D, --debug [debug]', 'use debug mode(show console log)').default(false)
 

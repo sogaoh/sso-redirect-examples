@@ -20,7 +20,11 @@
     "docker:ps": "npm run _runner_ -- -da ps",
     "docker:images": "npm run _runner_ -- -da images",
     "docker:prune:vol": "npm run _runner_ -- -da prune -do p_vf",
-    "docker:prune:all": "npm run _runner_ -- -da prune -do p_all"
+    "docker:prune:all": "npm run _runner_ -- -da prune -do p_all",
+    "ship:build": "npm run _runner_ -- -wd ship -da build -do b_nc",
+    "ship:up": "npm run _runner_ -- -wd ship -ca up -co u_d",
+    "ship:down": "npm run _runner_ -- -wd ship -ca down -co d_ro",
+    "ship:tag": "npm run _runner_ -- -wd ship -da tag"
   },
   "devDependencies": {
     "commander": "^9.4.0",

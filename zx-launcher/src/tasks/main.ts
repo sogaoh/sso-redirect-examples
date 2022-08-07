@@ -12,8 +12,16 @@ const runDir = ((await $`(cd ../applications/run && pwd)`).stdout as string).rep
 const shipDir = ((await $`(cd ../applications && pwd)`).stdout as string).replaceAll('\n', '')
 const workDir = opts.workDir == 'ship' ? shipDir : runDir
 
+const tagString = 'latest'
+//const tagDateString = ((await $`(date +%Y%m%d-%H%M)`).stdout as string).replaceAll('\n', '')
+
+const noDevOpt = '--no-dev'
+//const noDevOpt = ''
+
 SetEnv({
-  workDir: workDir
+  workDir: workDir,
+  imgTag: tagString,
+  noDevOpt: noDevOpt,
 })
 
 if (opts.debug) console.log($.env)
@@ -34,6 +42,10 @@ if (opts.dockerAction == DockerAction.PRUNE) {
   await dockerExecutor.ps()
 } else if (opts.dockerAction == DockerAction.IMAGES) {
   await dockerExecutor.images()
+} else if (opts.dockerAction == DockerAction.BUILD) {
+  await dockerExecutor.parallelBuild()
+} else if (opts.dockerAction == DockerAction.TAG) {
+  await dockerExecutor.parallelTag()
 } else if (opts.dockerAction != DockerAction.NONE) {
-
+  //TODO:
 }
