@@ -97,6 +97,44 @@ export class Docker {
     this.props = props
   }
 
+  async parallelBuild(): Promise<void> {
+    const containerIdentifiers = [
+      ContainerIdentifierMap.get(Container.WEB) ?? '',
+      ContainerIdentifierMap.get(Container.CLN) ?? ''
+    ]
+    const p8s = Parallels<void>()
+    containerIdentifiers.forEach(async identifier => {
+      p8s.add(
+        new Promise(async _ => {
+          await $`${containers.get(identifier)?.build({
+            opts: this.props.opts,
+            contextBaseDir: this.props.contextBaseDir
+          })}`.nothrow()
+        })
+      )
+    })
+    p8s.all()
+  }
+
+  async parallelTag(): Promise<void> {
+    const containerIdentifiers = [
+      ContainerIdentifierMap.get(Container.WEB) ?? '',
+      ContainerIdentifierMap.get(Container.CLN) ?? ''
+    ]
+    const p8s = Parallels<void>()
+    containerIdentifiers.forEach(async identifier => {
+      p8s.add(
+        new Promise(async _ => {
+          await $`${containers.get(identifier)?.tag({
+            opts: this.props.opts,
+            contextBaseDir: this.props.contextBaseDir
+          })}`.nothrow()
+        })
+      )
+    })
+    p8s.all()
+  }
+
   ps = async (): Promise<void> => {
     const psCmd = [
       'docker',
@@ -148,44 +186,6 @@ export class Docker {
         }),
       )
     }
-    p8s.all()
-  }
-
-  async parallelBuild(): Promise<void> {
-    const containerIdentifiers = [
-      ContainerIdentifierMap.get(Container.WEB) ?? '',
-      ContainerIdentifierMap.get(Container.CLN) ?? ''
-    ]
-    const p8s = Parallels<void>()
-    containerIdentifiers.forEach(async identifier => {
-      p8s.add(
-        new Promise(async _ => {
-          await $`${containers.get(identifier)?.build({
-            opts: this.props.opts,
-            contextBaseDir: this.props.contextBaseDir
-          })}`.nothrow()
-        })
-      )
-    })
-    p8s.all()
-  }
-
-  async parallelTag(): Promise<void> {
-    const containerIdentifiers = [
-      ContainerIdentifierMap.get(Container.WEB) ?? '',
-      ContainerIdentifierMap.get(Container.CLN) ?? ''
-    ]
-    const p8s = Parallels<void>()
-    containerIdentifiers.forEach(async identifier => {
-      p8s.add(
-        new Promise(async _ => {
-          await $`${containers.get(identifier)?.tag({
-            opts: this.props.opts,
-            contextBaseDir: this.props.contextBaseDir
-          })}`.nothrow()
-        })
-      )
-    })
     p8s.all()
   }
 }
