@@ -1,12 +1,11 @@
 #!/usr/bin/env -S npx zx
 
 import { $ } from 'zx'
+import { BaseProps } from '../etc/baseProps.js'
 import { ComposeAction, ComposeOptionsMap, ContainerShellMap } from '../etc/config.js'
-import { Options } from '../etc/options.js'
 import { Parallels } from './parallel.js'
 
-interface ComposeProps {
-  opts: Options
+interface ComposeProps extends BaseProps {
 }
 
 export class Compose {
@@ -19,40 +18,41 @@ export class Compose {
     const opts = this.props.opts
     const composeOptionString = ComposeOptionsMap.get(opts.composeOptions)
 
-    const execCmd = [
+    const composeCmd = [
       'docker-compose',
       '-f',
       `${process.env.WORK_DIR}/docker-compose.yml`
     ]
-    execCmd.push(this.props.opts.composeAction)
+    composeCmd.push(this.props.opts.composeAction)
     switch (this.props.opts.composeAction) {
       case ComposeAction.UP:
       case ComposeAction.DOWN:
         composeOptionString?.split(' ').forEach(opt => {
-          execCmd.push(opt)
+          composeCmd.push(opt)
         })
         break
       case ComposeAction.EXEC:
         if (this.props.opts.targetContainer != '') {
           const containerShell = ContainerShellMap.get(opts.targetContainer)
-          execCmd.push(opts.targetContainer)
-          execCmd.push(String(containerShell))
-          console.log(execCmd.join(' '))
+          composeCmd.push(opts.targetContainer)
+          composeCmd.push(String(containerShell))
+          console.log(composeCmd.join(' '))
           return
         } else {
+          console.log('No target container. EXIT.')
           return
         }
         break
       case ComposeAction.LOGS:
-        execCmd.push('-f')
-        execCmd.push(opts.targetContainer)
+        composeCmd.push('-f')
+        composeCmd.push(opts.targetContainer)
         break
       default:  break
     }
 
     //console.log(this.props.opts)
     //console.log(execCmd)
-    await $`cd ${process.env.WORK_DIR};`.pipe($`${execCmd}`)
+    await $`cd ${process.env.WORK_DIR};`.pipe($`${composeCmd}`)
   }
 
   chmod = async () => {

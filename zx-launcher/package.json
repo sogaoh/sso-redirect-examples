@@ -16,7 +16,11 @@
     "local:logs:web": "npm run _runner_ -- -ca logs -tc web",
     "local:logs:cln": "npm run _runner_ -- -ca logs -tc client",
     "local:logs:db": "npm run _runner_ -- -ca logs -tc db",
-    "local:logs:redis": "npm run _runner_ -- -ca logs -tc redis"
+    "local:logs:redis": "npm run _runner_ -- -ca logs -tc redis",
+    "docker:ps": "npm run _runner_ -- -da ps",
+    "docker:images": "npm run _runner_ -- -da images",
+    "docker:prune:vol": "npm run _runner_ -- -da prune -do p_vf",
+    "docker:prune:all": "npm run _runner_ -- -da prune -do p_all"
   },
   "devDependencies": {
     "commander": "^9.4.0",

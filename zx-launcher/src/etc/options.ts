@@ -1,5 +1,5 @@
 import { program, Option } from 'commander'
-import { ComposeAction, Container } from './config.js'
+import { ComposeAction, Container, DockerAction } from './config.js'
 
 const workDir = new Option('-wd, --workDir [workDir]', 'working directory.')
   .default('run')
@@ -17,6 +17,14 @@ const targetContainer = new Option('-tc, --targetContainer [targetContainer]', '
   .default('')
   .choices(['', 'web', 'client', 'db', 'redis'])
 
+const dockerAction = new Option('-da, --dockerAction [dockerAction]', 'docker action.')
+  .default('none')
+  .choices(['none', 'prune', 'ps', 'images', 'build', 'tag', 'push'])
+
+const dockerOptions = new Option('-do, --dockerOptions [dockerOptions]', 'docker options.')
+  .default('none')
+  .choices(['none', 'p_vf', 'p_all'])
+
 const debug = new Option('-D, --debug [debug]', 'use debug mode(show console log)').default(false)
 
 program
@@ -25,6 +33,8 @@ program
   .addOption(composeAction)
   .addOption(composeOptions)
   .addOption(targetContainer)
+  .addOption(dockerAction)
+  .addOption(dockerOptions)
   .addOption(debug)
   .parse(process.argv)
 
@@ -33,6 +43,8 @@ export type Options = {
   composeAction: ComposeAction
   composeOptions: string
   targetContainer: Container
+  dockerAction: DockerAction
+  dockerOptions: string
   debug: boolean
 }
 export const Options = program.opts<Options>()

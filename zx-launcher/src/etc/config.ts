@@ -43,6 +43,31 @@ const ComposeOptionsMap = new Map([
 ])
 type ComposeOptionsMap = typeof ComposeOptionsMap[keyof typeof ComposeOptionsMap]
 
+const DockerAction = {
+  NONE:  'none',
+  PRUNE: 'prune',
+  PS:    'ps',
+  IMAGES:'images',
+  BUILD: 'build',
+  TAG:   'tag',
+  PUSH:  'push',
+}
+type DockerAction = typeof DockerAction[keyof typeof DockerAction]
+
+const DockerOptionsType = {
+  NONE:  'none',
+  P_VF:  'p_vf',
+  P_ALL: 'p_all',
+}
+type DockerOptionsType = typeof DockerOptionsType[keyof typeof DockerOptionsType]
+
+const DockerOptionsMap = new Map([
+  [DockerOptionsType.NONE,  ''],
+  [DockerOptionsType.P_VF,  '--volumes --force'],
+  [DockerOptionsType.P_ALL, '--all --force'],
+])
+type DockerOptionsMap = typeof DockerOptionsMap[keyof typeof DockerOptionsMap]
+
 const ActivateType = {
   OFF: '0',
   ON:  '1',
@@ -54,5 +79,8 @@ export {
   Container,
   ContainerShellMap,
   ComposeOptionsMap,
+  DockerAction,
+  DockerOptionsMap,
+  DockerOptionsType,
   ActivateType
 }
