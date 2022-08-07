@@ -1,0 +1,40 @@
+{
+  "type": "module",
+  "scripts": {
+    "_runner_": "node --loader ts-node/esm src/tasks/main.ts",
+    "help": "npm run _runner_ -h",
+    "local:up": "npm run _runner_ -- -ca up -co u_d",
+    "local:upb": "npm run _runner_ -- -ca up -co u_db",
+    "local:chmod": "npm run _runner_ -- -ca chmod",
+    "local:down": "npm run _runner_ -- -ca down -co d_ro",
+    "local:restart": "npm-run-all --serial local:down --serial local:up",
+    "local:rbld": "npm run _runner_ -- -ca build -co b_rb",
+    "local:exec:web": "npm run _runner_ -- -ca exec -tc web",
+    "local:exec:cln": "npm run _runner_ -- -ca exec -tc client",
+    "local:exec:db": "npm run _runner_ -- -ca exec -tc db",
+    "local:exec:redis": "npm run _runner_ -- -ca exec -tc redis",
+    "local:logs:web": "npm run _runner_ -- -ca logs -tc web",
+    "local:logs:cln": "npm run _runner_ -- -ca logs -tc client",
+    "local:logs:db": "npm run _runner_ -- -ca logs -tc db",
+    "local:logs:redis": "npm run _runner_ -- -ca logs -tc redis",
+    "docker:ps": "npm run _runner_ -- -da ps",
+    "docker:images": "npm run _runner_ -- -da images",
+    "docker:prune:vol": "npm run _runner_ -- -da prune -do p_vf",
+    "docker:prune:all": "npm run _runner_ -- -da prune -do p_all",
+    "ship:build": "npm run _runner_ -- -wd ship -da build -do b_nc",
+    "ship:up": "npm run _runner_ -- -wd ship -ca up -co u_d",
+    "ship:down": "npm run _runner_ -- -wd ship -ca down -co d_ro",
+    "ship:tag": "npm run _runner_ -- -wd ship -da tag"
+  },
+  "devDependencies": {
+    "commander": "^9.4.0",
+    "deep-copy-ts": "^0.5.4",
+    "dotenv": "^16.0.1",
+    "eslint": "^8.20.0",
+    "npm-run-all": "^4.1.5",
+    "prettier": "^2.7.1",
+    "ts-node": "^10.9.1",
+    "typescript": "^4.7.4",
+    "zx": "^7.0.7"
+  }
+}
